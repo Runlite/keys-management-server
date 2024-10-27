@@ -1,6 +1,7 @@
 import { log } from "../services";
 import BaseRoute, { HealthCheck, KeysRoutes } from "../routes";
 import { Router } from "express";
+import { UsageRoutes } from "../routes/usage.routes";
 
 interface RouteInfo {
   path: string;
@@ -89,6 +90,7 @@ class RouteManager {
 const routeManager = new RouteManager();
 routeManager.addRoute(new HealthCheck());
 routeManager.addRoute(new KeysRoutes());
+routeManager.addRoute(new UsageRoutes())
 /// add  more routes classes
 const routes = routeManager.getRoutes();
 

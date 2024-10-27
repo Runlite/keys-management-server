@@ -55,13 +55,17 @@ export class KeysController {
     });
   }
   async del(id: string, userId: string) {
-    const deleteKey = await this.prisma.apiKey.deleteMany({
+    await this.prisma.usageRecord.deleteMany({
+      where: {
+        apiKeyId: id,
+      },
+    });
+    await this.prisma.apiKey.delete({
       where: {
         id,
         userId,
       },
     });
-
     await this.prisma.auditLog.create({
       data: {
         userId,
@@ -69,9 +73,6 @@ export class KeysController {
         details: { apiKeyId: id },
       },
     });
-    if (deleteKey.count === 0) {
-      return false;
-    }
     return true;
   }
 }
